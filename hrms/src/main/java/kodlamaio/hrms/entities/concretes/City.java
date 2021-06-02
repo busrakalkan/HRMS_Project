@@ -4,39 +4,35 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
-@NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "id")
-@Table(name = "employers")
+@NoArgsConstructor
+@Table(name = "cities")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler","jobAdvertisement"})
 
-public class Employer  extends User{
+public class City {
 	
-	@Column(name = "company_name")
-	private String companyName;
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
+	private int id;
 	
-	@Column(name = "web_address")
-	private String webAddress;
+	@Column(name = "city_name")
+	private String CityName;
 	
-	@Column(name = "phone_number")
-	private String phoneNumber;
-	
-	@OneToMany(mappedBy="employer")
+	@OneToMany(mappedBy="city")
 	private List<JobAdvertisement> jobAdvertisement;
 
 }

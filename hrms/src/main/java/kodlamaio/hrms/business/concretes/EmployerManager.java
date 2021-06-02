@@ -41,7 +41,7 @@ public class EmployerManager implements EmployerService{
 	public Result login(String email, String password) {
 		
 		if(this.employerDao.getByEmailAndPassword(email,password)!= null){
-			return new SuccessResult("Giriş Bararıyla Gerçekleştirildi");
+			return new SuccessResult("Giriş Bararıyla Grçekleştirildi");
 		}else {
 			return new ErrorResult("Email veya şifre yanlış!");
 		}

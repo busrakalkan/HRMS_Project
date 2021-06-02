@@ -9,39 +9,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import kodlamaio.hrms.business.abstracts.PositionService;
-import kodlamaio.hrms.entities.concretes.Position;
+import kodlamaio.hrms.business.abstracts.PersonnelService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
-
+import kodlamaio.hrms.entities.concretes.Personnel;
 
 @RestController
-@RequestMapping("/api/position")
-public class PositionController {
+@RequestMapping("/api/personnel")
+public class PersonnelController {
 	
-	private PositionService positionService;
-	
-	
-	@Autowired
-	public PositionController(PositionService positionService) {
-		super();
-		this.positionService = positionService;
-	}
-	@GetMapping("/getall")
-	public DataResult<List<Position>> getAll(){
-		return this.positionService.getAll();
-	}
-	
-	@PostMapping("/add")
-	public Result add(@RequestBody Position position) {
-		return this.positionService.add(position);
-	}
-	
-	@GetMapping("/getByProductName")
-	public DataResult<Position> getByProductName(@RequestParam String positionName){
-		return this.positionService.getByPositionName(positionName);
-	}
+	private PersonnelService personnelService;
 
+	@Autowired
+	public PersonnelController(PersonnelService personnelService) {
+		super();
+		this.personnelService = personnelService;
+	}
+	
+	@GetMapping("/getall")
+	public DataResult<List<Personnel>> getAll(){
+		return this.personnelService.getAll();
+	}
+	@PostMapping("/add")
+	public Result add(@RequestBody Personnel personnel) {
+		return this.personnelService.add(personnel);
+	}
+	@GetMapping("/getById")
+	public Result getById(@RequestParam int id){
+		return this.personnelService.getById(id);
+	}
+	
 
 }

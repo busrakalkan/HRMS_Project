@@ -1,4 +1,4 @@
-package kodlamaio.hrms.core.utilities.abstracts;
+package kodlamaio.hrms.core.validators.abstracts;
 
 import org.springframework.stereotype.Service;
 import kodlamaio.hrms.entities.concretes.JobSeeker;

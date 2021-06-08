@@ -1,10 +1,10 @@
-package kodlamaio.hrms.core.utilities.concretes;
+package kodlamaio.hrms.core.validators.concretes;
 
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
 
-import kodlamaio.hrms.core.utilities.abstracts.EmailService;
+import kodlamaio.hrms.core.validators.abstracts.EmailService;
 @Component
 public class FakeEmailManager implements EmailService{
 	

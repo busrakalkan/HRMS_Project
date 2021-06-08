@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.PersonnelService;
-import kodlamaio.hrms.core.utilities.abstracts.EmailService;
+import kodlamaio.hrms.core.validators.abstracts.EmailService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -50,10 +50,7 @@ public class EmployerManager implements EmployerService{
 	@Override
 	public Result register(Employer employer, String passwordRepeat) {
 		
-		if(this.hasEmptyField(employer)) {
-			return new ErrorResult("Tüm alanların doldurulması zorunludur!");
-			
-		}else if(!this.emailService.emailDomainCheck(employer.getEmail(), employer.getWebAddress())) {
+		if(!this.emailService.emailDomainCheck(employer.getEmail(), employer.getWebAddress())) {
 			return new ErrorResult("Email ve web adresi aynı domainde olmalıdır!");
 			
 		}else if(this.employerDao.existsEmployerByEmail(employer.getEmail())) {
@@ -78,17 +75,6 @@ public class EmployerManager implements EmployerService{
 		this.employerDao.delete(employer);
 		return null;
 	}
-	
-	public boolean hasEmptyField(Employer employer) {
-		
-		if (employer.getCompanyName().isEmpty() || employer.getWebAddress().isEmpty()
-				|| employer.getPhoneNumber().isEmpty() || employer.getEmail().isEmpty()
-				|| employer.getPassword().isEmpty())
-				{
-			return true;
-		} else {
-			return false;
-		}
-	}
+
 
 }

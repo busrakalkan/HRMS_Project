@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.JobSeekerService;
-import kodlamaio.hrms.core.utilities.abstracts.EmailService;
-import kodlamaio.hrms.core.utilities.abstracts.MernisCheckService;
+import kodlamaio.hrms.core.validators.abstracts.EmailService;
+import kodlamaio.hrms.core.validators.abstracts.MernisCheckService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -49,14 +49,8 @@ public class JobSeekerManager implements JobSeekerService {
 	@Override
 	public Result register(JobSeeker jobSeeker, String passwordRepeat) {
 		
-		if (this.hasEmptyField(jobSeeker)) { //birhtday sıkıntısı var!!
-			return new ErrorResult("Tüm alanlar zorunludur.");
-			
-		}else if (!this.mernisCheck.checkIfRealPerson(jobSeeker)) { 
+		if (!this.mernisCheck.checkIfRealPerson(jobSeeker)) { 
 			return new ErrorResult("Girilen bilgiler gerçek bir kişiye ait değil!");
-			
-		}else if (!this.emailService.emailCheck(jobSeeker.getEmail())) { 
-			return new ErrorResult("Email geçerli değil!");	
 			
 		}else if(this.jobSeekerDao.existsJobSeekerByEmail(jobSeeker.getEmail())) {
 			return new ErrorResult("Bu email'e sahip bir kayıt mevcuttur.");
@@ -65,7 +59,7 @@ public class JobSeekerManager implements JobSeekerService {
 			return new ErrorResult("Şifre tekrarı yanlış!");
 			
 		}else if (this.jobSeekerDao.existsJobSeekerByTc(jobSeeker.getTc())) { 
-			return new ErrorResult("Bu kimlik numaralı bir kayıt mevcuttur.");
+			return new ErrorResult("Bu kimlik numarasına sahip bir kayıt mevcuttur.");
 			
 		}else {
 			this.jobSeekerDao.save(jobSeeker);
@@ -80,21 +74,11 @@ public class JobSeekerManager implements JobSeekerService {
 		this.jobSeekerDao.delete(jobSeeker); 
 		return new SuccessResult("Silme işlemi gerçekleştirildi"); 
 	}
-	 
 
-	public boolean hasEmptyField(JobSeeker jobSeeker) {
+	@Override
+	public DataResult<JobSeeker> getByJobSeekerId(Integer id) {
 		
-		if (jobSeeker.getFirstName().isEmpty() 
-				|| jobSeeker.getLastName().isEmpty() 
-				//|| jobSeeker.getBirthYear().toString().isEmpty() 
-				|| jobSeeker.getEmail().isEmpty() 
-				|| jobSeeker.getTc().toString().isEmpty() 
-				|| jobSeeker.getPassword().isEmpty() )
-				 {
-			return true;
-		} else {
-			return false;
-		}
+		return new SuccessDataResult<JobSeeker>(this.jobSeekerDao.findById(id).get(),"id'ye göre iş arayan");
 	}
 
 

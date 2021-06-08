@@ -11,6 +11,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.JobAdvertisementDao;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 @Service
 
 
@@ -31,27 +32,27 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByActivated() {
-		return new SuccessDataResult<List<JobAdvertisement>>
+	public DataResult<List<JobAdvertisementDto>> getByActivated() {
+		return new SuccessDataResult<List<JobAdvertisementDto>>
 		(this.jobAdvertisementDao.findByIsActiveTrue(),"Aktif iş ilanları");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByActivatedOrderByReleaseDateAsc() {
-		return new SuccessDataResult<List<JobAdvertisement>>
+	public DataResult<List<JobAdvertisementDto>> getByActivatedOrderByReleaseDateAsc() {
+		return new SuccessDataResult<List<JobAdvertisementDto>>
 		(this.jobAdvertisementDao.findByIsActiveTrueOrderByReleaseDateAsc(),"Yayın Tarihine göre Aktif ilanlar");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByActivatedOrderByDeadlineDateAsc() {
-		return new SuccessDataResult<List<JobAdvertisement>>
+	public DataResult<List<JobAdvertisementDto>> getByActivatedOrderByDeadlineDateAsc() {
+		return new SuccessDataResult<List<JobAdvertisementDto>>
 		(this.jobAdvertisementDao.findByIsActiveTrueOrderByDeadlineDateAsc(),"Son başvuru tarihine göre aktif ilanlar");
 	}
 
 	@Override
-	public DataResult<List<JobAdvertisement>> getByActivatedAndEmployerId(Integer id) {
-		return new SuccessDataResult<List<JobAdvertisement>>
-		(this.jobAdvertisementDao.findByIsActiveTrueAndEmployer_Id(id),"Firmanın aktif iş ilanları");
+	public DataResult<List<JobAdvertisementDto>> getByActivatedAndEmployer(String companyName) {
+		return new SuccessDataResult<List<JobAdvertisementDto>>
+		(this.jobAdvertisementDao.findByIsActiveTrueAndEmployer(companyName),"Firmanın aktif iş ilanları");
 	}
 
 	@Override
@@ -61,5 +62,7 @@ public class JobAdvertisementManager implements JobAdvertisementService{
 		this.jobAdvertisementDao.save(j);
 		return new SuccessResult("İş ilanı kaldırıldı");
 	}
+
+	
 
 }

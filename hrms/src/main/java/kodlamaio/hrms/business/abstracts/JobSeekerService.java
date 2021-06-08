@@ -12,6 +12,7 @@ public interface JobSeekerService {
 	Result login(String email, String password); 
 	Result register(JobSeeker jobSeeker,String emailRepeat); 
 	Result delete(JobSeeker jobSeeker);
+	DataResult<JobSeeker> getByJobSeekerId(Integer id);
 	 
 	
 }

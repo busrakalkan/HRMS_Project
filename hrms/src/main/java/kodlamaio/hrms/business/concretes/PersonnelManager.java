@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.PersonnelService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-
+import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.PersonnelDao;
 import kodlamaio.hrms.entities.concretes.Employer;
 import kodlamaio.hrms.entities.concretes.Personnel;
+
 
 
 @Service
@@ -48,7 +49,15 @@ public class PersonnelManager implements PersonnelService{
 		//Employer register permit
 		return true;
 	}
-	
+
+	@Override
+	public Result login(String email, String password) {
+		if(this.personnelDao.getByEmailAndPassword(email,password)!= null){
+			return new SuccessResult("Giriş Bararıyla GErçekleştirildi");
+		}else {
+			return new ErrorResult("Kullanıcı Bulunamadı!");
+		}
+	}
 
 
 }

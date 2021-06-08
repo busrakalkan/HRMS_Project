@@ -14,6 +14,7 @@ import kodlamaio.hrms.business.abstracts.JobAdvertisementService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.entities.concretes.JobAdvertisement;
+import kodlamaio.hrms.entities.dtos.JobAdvertisementDto;
 
 @RestController
 @RequestMapping("/api/jobAdvertisement")
@@ -26,7 +27,7 @@ public class JobAdvertisementController {
 		this.jobAdvertisementService = jobAdvertisementService;
 	}
 	@GetMapping("/getActive")
-	public DataResult<List<JobAdvertisement>> getActive(){
+	public DataResult<List<JobAdvertisementDto>> getActive(){
 		return this.jobAdvertisementService.getByActivated();
 	}
 	
@@ -36,22 +37,25 @@ public class JobAdvertisementController {
 	}
 	
 	@GetMapping("/getByRelease")
-	public DataResult<List<JobAdvertisement>> getByRelease(){
+	public DataResult<List<JobAdvertisementDto>> getByRelease(){
 		return this.jobAdvertisementService.getByActivatedOrderByReleaseDateAsc();
 	}
 	@GetMapping("/getByDeadline")
-	public DataResult<List<JobAdvertisement>> getByDeadline(){
+	public DataResult<List<JobAdvertisementDto>> getByDeadline(){
 		return this.jobAdvertisementService.getByActivatedOrderByDeadlineDateAsc();
 	}
 	
-	@PostMapping("/getActiveAndByEmployer")
-	public Result ghadd(@RequestParam int id) {
-		return this.jobAdvertisementService.getByActivatedAndEmployerId(id);
+	
+	@GetMapping("/getActiveAndByEmployer")
+	public Result getByActivatedAndEmployer(@RequestParam String companyName) {
+		return this.jobAdvertisementService.getByActivatedAndEmployer(companyName);
 	}
 	
-	@GetMapping("deactivateAdvertisement")
+	@GetMapping("/deactivateAdvertisement")
 	public Result deactivateJobAdvertisement(@RequestParam Integer id) {
 		return this.jobAdvertisementService.deactivateJobAdvertisement(id);
 	}
+	
+
 
 }
